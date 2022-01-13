@@ -19,7 +19,7 @@ header {
     max-width: 50%;
 }
 
-main {
+.page-content {
     height: 600px;
     display: flex;
     flex-direction: column;
