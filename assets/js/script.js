@@ -1,31 +1,158 @@
 var counter = 120
+var score = 0
 var pageContent = document.querySelector("#page-content");
+var startBtn = document.querySelector("#start-btn");
 var timerEl = document.querySelector(".time");
+var questionContainerEl = document.querySelector("#question-container");
+var heading = document.querySelector(".heading");
+var description = document.querySelector(".description");
+var questionEl = document.querySelector("#question");
+const answerBtnEl = document.querySelector(".ans-btns");
+var buttonsEl = document.querySelector(".buttons");
+var answerBtn = document.querySelector(".button");
+var btnNumber = 1 
 
 var countdown = function() {
-    console.log(counter);
-    timerEl.innerHTML = counter + "s Remaining!";
-    counter--;
-    if(counter === 0) {
+    if(counter > 0) {
+        timerEl.innerHTML = counter + "s Remaining!";
+        counter--;
+    } else {
+        timerEl.innerHTML = "0s Remaining!";
+        clearInterval(counter);
         endQuiz();
-        clearInterval(startCountdown);
-    };
+    }
 };
 
 var startCountdown = function() {
     setInterval(countdown, 1000);
 };
 
-var startQuiz = function() {
+let shuffledQuestions, currentQuestionIndex
+
+startBtn.addEventListener('click', startQuiz);
+
+function startQuiz() {
     startCountdown();
+    console.log('started');
+    startBtn.classList.add('hide');
+    description.classList.add('hide');
+    heading.classList.add('hide');
+    shuffledQuestions = questions.sort(() => Math.random() - .5);
+    currentQuestionIndex = 0;
+    questionContainerEl.classList.remove('hide');
+    setNextQuestion();
 }
 
-var buttonHandler = function() {
-    var targetEl = event.target;
+function setNextQuestion() {
+    resetState()
+    showQuestion(shuffledQuestions[currentQuestionIndex]);
+};
 
-    if (targetEl.matches("#start-btn")) {
-        startQuiz();
+function showQuestion(question) {
+    questionEl.innerText = question.question;
+    question.answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('button');
+        if (answer.correct) {
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener('click', selectAnswer)
+        answerBtnEl.appendChild(button);
+    })
+}
+
+function selectAnswer(e) {
+    const selectedButton = e.target
+    const correct = selectedButton.dataset.correct
+    setStatusClass(document.querySelector("#correct-wrong"), correct);
+}
+
+function callSetQuestionFunc() {
+    if (shuffledQuestions.length > currentQuestionIndex) {
+        setNextQuestion();
+    } else {
+        console.log("done");
+        console.log(score);
     }
 }
 
-pageContent.addEventListener("click", buttonHandler);
+function setStatusClass(element, correct) {
+    clearStatusClass(element);
+    if (correct) {
+        element.classList.remove('hide');
+        element.innerText = "Correct";
+        currentQuestionIndex++;
+        score += 10
+        console.log(score);
+        callSetQuestionFunc();
+    } else {
+        element.classList.remove('hide');
+        element.innerText = "Incorrect";
+        currentQuestionIndex++;
+        if (score > 0){
+            score -= 10;
+            console.log(score);
+        }
+        callSetQuestionFunc();
+    }
+}
+
+function clearStatusClass(element) {
+    element.classList.remove('correct');
+    element.classList.remove('wrong');
+}
+
+function resetState () {
+    while (answerBtnEl.firstChild) {
+        answerBtnEl.removeChild(answerBtnEl.firstChild);
+    }
+}
+
+var questions = [
+    {
+        question: 'Commonly used data types DO NOT Include:',
+        answers: [
+            { text: 'Strings', correct: false },
+            { text: 'Booleans', correct: false },
+            { text: 'alerts', correct: true },
+            { text: 'Numbers', correct: false }
+        ]
+    },
+    {
+        question: 'The condition in an if/else statment is enclosed with _____.',
+        answers: [
+            { text: 'quotes', correct: false },
+            { text: 'Curly Brackets', correct: false },
+            { text: 'Parenthesis', correct: true },
+            { text: 'Square Brackets', correct: false }
+        ]
+    },
+    {
+        question: 'Arrays in JavaScript can be used to store _____.',
+        answers: [
+            { text: 'Numbers and Strings', correct: false },
+            { text: 'Other Arrays', correct: false },
+            { text: 'Booleans', correct: false },
+            { text: 'All of The Above', correct: true }
+        ]
+    },
+    {
+        question: 'String values must be enclosed within _____ when being assigned to variables.',
+        answers: [
+            { text: 'Commas', correct: false },
+            { text: 'Curly Brackets', correct: false },
+            { text: 'Quotes', correct: true },
+            { text: 'Parenthesis', correct: false }
+        ]
+    },
+    {
+        question: 'A very useful tool used during development and debugging for printing content to the debugger is:',
+        answers: [
+            { text: 'JavaScript', correct: false },
+            { text: 'Terminal/Bash', correct: false },
+            { text: 'For Loops', correct: false },
+            { text: 'console.log', correct: true }
+        ]
+    }
+];
