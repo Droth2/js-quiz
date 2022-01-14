@@ -11,7 +11,7 @@ var countdown = function() {
     timerEl.innerHTML = counter + "s Remaining!";
     counter--;
     if(counter === 0) {
-        clearInterval(countdown);
+        clearInterval(counter);
         endQuiz();
     };
 };
@@ -54,6 +54,9 @@ var answer = function(e) {
         console.log(score);
         trueAction();
         question2();
+    } else {
+        falseAction();
+        question2();
     }
 }
 
@@ -69,6 +72,18 @@ var buttonHandler = function() {
 
 var trueAction = function() {
     console.log("you got it right");
+    const trueStatment = document.createElement("section");
+    trueStatment.className = 'tf';
+    trueStatment.innerHTML = "<h3 class='tf-words'>Correct</h3>";
+    pageContent.appendChild(trueStatment);
+};
+
+var falseAction = function() {
+    console.log("you got it wrong");
+    const falseStatment = document.createElement("section");
+    falseStatment.className = 'tf';
+    falseStatment.innerHTML = "<h3 class='tf-words'>Incorrect</h3>";
+    pageContent.appendChild(falseStatment);
 };
 
 var question2 = function() {
@@ -79,7 +94,7 @@ pageContent.addEventListener("click", buttonHandler);
 
 var questions = [
     {
-        question: 'Commonly used data types DO Not Include:',
+        question: 'Commonly used data types DO NOT Include:',
         answers: [
             { text: 'Strings', correct: false },
             { text: 'Booleans', correct: false },

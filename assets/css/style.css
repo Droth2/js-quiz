@@ -73,3 +73,15 @@ footer {
 .hide {
     display: none;
 }
+
+.tf {
+    width: 80%;
+    border-bottom: solid 2px black;
+    padding: 10px 0;
+    height: 62px;
+}
+
+.tf-words {
+    font-size: 25px;
+    margin: 0;
+}
