@@ -44,7 +44,7 @@ header {
     align-items: flex-start;
 }
 
-.button {
+.button, .button1, .button2, .button3, .button4 {
     outline: none;
     border: solid 1px black;
     padding: 10px 40px;
@@ -54,13 +54,13 @@ header {
     margin-bottom: 5px;
 }
 
-.button:hover {
+.button:hover, .button1:hover, .button2:hover, .button3:hover, .button4:hover {
     box-shadow: 2px 2px black;
     top: -2px;
     cursor: pointer;
 }
 
-.button:active {
+.button:active, .button1:active, .button2:active, .button3:active, .button4:active {
     box-shadow: 0 0 black;
 }
 

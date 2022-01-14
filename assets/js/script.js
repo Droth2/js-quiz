@@ -6,14 +6,17 @@ var timerEl = document.querySelector(".time");
 var heading = document.querySelector(".heading");
 var buttonsEl = document.querySelector(".buttons");
 var answerBtn = document.querySelector(".button");
+var btnNumber = 1 
 
 var countdown = function() {
-    timerEl.innerHTML = counter + "s Remaining!";
-    counter--;
-    if(counter === 0) {
+    if(counter > 0) {
+        timerEl.innerHTML = counter + "s Remaining!";
+        counter--;
+    } else {
+        timerEl.innerHTML = "0s Remaining!";
         clearInterval(counter);
         endQuiz();
-    };
+    }
 };
 
 var startCountdown = function() {
@@ -35,16 +38,22 @@ var question1 = function () {
     questions[0].answers.forEach(answers => {
         const ansButton = document.createElement('button');
         ansButton.innerText = answers.text;
-        ansButton.className = 'button';
+        ansButton.className = 'button' + btnNumber + ' btn';
+        btnNumber++;
         if (answers.correct) {
             ansButton.dataset.correct = answers.correct
         };
         buttonsEl.appendChild(ansButton);
-    });
-    
-    // when button is clicked answer is saved and next question appears 
-    
+    });    
 };
+
+var question2 = function() {
+    heading.innerHTML = questions[1].question;
+    var btn1 = document.querySelector("button1");
+    console.log(btn1);
+    btn1.innerText = "hello";
+};
+
 
 var answer = function(e) {
     var selectedButton = event.target;
@@ -54,18 +63,23 @@ var answer = function(e) {
         console.log(score);
         trueAction();
         question2();
+    } else if (score > 0) {
+        score -= 10;
+        console.log(score);
+        falseAction();
+        question2()
     } else {
         falseAction();
         question2();
     }
-}
+};
 
 var buttonHandler = function() {
     var targetEl = event.target;
 
     if (targetEl.matches("#start-btn")) {
         startQuiz();
-    } else if (targetEl.matches(".button")) {
+    } else if (targetEl.matches(".btn")) {
         answer();
     }
 }  
@@ -84,10 +98,6 @@ var falseAction = function() {
     falseStatment.className = 'tf';
     falseStatment.innerHTML = "<h3 class='tf-words'>Incorrect</h3>";
     pageContent.appendChild(falseStatment);
-};
-
-var question2 = function() {
-    console.log("starting question2");
 };
 
 pageContent.addEventListener("click", buttonHandler);
