@@ -10,6 +10,10 @@ header {
     justify-content: space-between;
 }
 
+header a {
+    text-decoration: none;
+}
+
 .high-scores {
     margin-left: 150px;
     max-width: 50%;
@@ -87,4 +91,14 @@ footer {
     height: 62px;
     font-size: 25px;
     margin: 0;
+}
+
+form input {
+    outline: none;
+    border: none;
+    padding: 12px;
+    width: 55%;
+    font-size: 1rem;
+    border: 2px solid black;
+    border-radius: 12px;
 }

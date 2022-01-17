@@ -74,6 +74,7 @@ function callSetQuestionFunc() {
     } else {
         console.log("done");
         console.log(score);
+        endQuiz();
     }
 }
 
@@ -103,10 +104,45 @@ function clearStatusClass(element) {
     element.classList.remove('wrong');
 }
 
-function resetState () {
+function resetState() {
     while (answerBtnEl.firstChild) {
         answerBtnEl.removeChild(answerBtnEl.firstChild);
     }
+}
+
+function endQuiz() {
+    clearInterval(counter);
+    questionContainerEl.classList.add('hide');
+    heading.innerText = "Score:" + score + ", Enter your name to save your score!"
+    heading.classList.remove('hide');
+    const saveForm = document.createElement('form');
+    const saveInput = document.createElement('input');
+    const saveBtn = document.createElement('button');
+    saveInput.setAttribute('type', 'text');
+    saveInput.setAttribute('name', 'save-name');
+    saveInput.setAttribute('placeholder', 'Enter Your Name');
+    saveBtn.innerText = "save";
+    saveBtn.classList.add('button');
+    saveBtn.setAttribute('type', 'submit');
+    saveBtn.setAttribute('id', 'save-btn');
+    saveBtn.addEventListener('click', saveScore);
+    saveForm.appendChild(saveInput);
+    saveForm.appendChild(saveBtn);
+    pageContent.appendChild(saveForm);
+}
+
+function saveScore() {
+    event.preventDefault();
+    const saveFormEl = document.querySelector('form');
+    const savedName = document.querySelector("input[name='save-name']").value;
+    const scoresObj ={
+        name: savedName,
+        score: score
+    };
+    localStorage.setItem("scores", JSON.stringify(scoresObj));
+    console.log (scoresObj.name + " has a score of " + scoresObj.score);
+    saveFormEl.reset();
+    window.location.href = "./highscores.html";
 }
 
 var questions = [
