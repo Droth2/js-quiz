@@ -102,3 +102,21 @@ form input {
     border: 2px solid black;
     border-radius: 12px;
 }
+
+.scores-container {
+    width: 43vw;
+    height: 25vw;
+    background-color: rgb(59, 10, 59);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.player-score {
+    width: 75%;
+    height: 30px;
+    background-color: white;
+    padding: 6px 25px;
+    border-radius: 15px;
+}

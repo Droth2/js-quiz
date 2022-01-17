@@ -11,6 +11,7 @@ const answerBtnEl = document.querySelector(".ans-btns");
 var buttonsEl = document.querySelector(".buttons");
 var answerBtn = document.querySelector(".button");
 var btnNumber = 1 
+var scoresArr = [];
 
 var countdown = function() {
     if(counter > 0) {
@@ -133,13 +134,14 @@ function endQuiz() {
 
 function saveScore() {
     event.preventDefault();
-    const saveFormEl = document.querySelector('form');
-    const savedName = document.querySelector("input[name='save-name']").value;
-    const scoresObj ={
+    var saveFormEl = document.querySelector('form');
+    var savedName = document.querySelector("input[name='save-name']").value;
+    var scoresObj ={
         name: savedName,
         score: score
     };
-    localStorage.setItem("scores", JSON.stringify(scoresObj));
+    scoresArr.push(scoresObj);
+    localStorage.setItem("playerScore", JSON.stringify(scoresArr));
     console.log (scoresObj.name + " has a score of " + scoresObj.score);
     saveFormEl.reset();
     window.location.href = "./highscores.html";
