@@ -116,9 +116,9 @@ function endQuiz() {
     questionContainerEl.classList.add('hide');
     heading.innerText = "Score:" + score + ", Enter your name to save your score!"
     heading.classList.remove('hide');
-    const saveForm = document.createElement('form');
-    const saveInput = document.createElement('input');
-    const saveBtn = document.createElement('button');
+    var saveForm = document.createElement('form');
+    var saveInput = document.createElement('input');
+    var saveBtn = document.createElement('button');
     saveInput.setAttribute('type', 'text');
     saveInput.setAttribute('name', 'save-name');
     saveInput.setAttribute('placeholder', 'Enter Your Name');
@@ -134,6 +134,7 @@ function endQuiz() {
 
 function saveScore() {
     event.preventDefault();
+    debugger;
     var saveFormEl = document.querySelector('form');
     var savedName = document.querySelector("input[name='save-name']").value;
     var scoresObj ={
@@ -141,11 +142,29 @@ function saveScore() {
         score: score
     };
     scoresArr.push(scoresObj);
-    localStorage.setItem("playerScore", JSON.stringify(scoresArr));
+    console.log(scoresArr);
+    saveSaveScore();
     console.log (scoresObj.name + " has a score of " + scoresObj.score);
     saveFormEl.reset();
     window.location.href = "./highscores.html";
 }
+
+function saveSaveScore() {
+    debugger;
+    localStorage.setItem("playerScore", JSON.stringify(scoresArr));
+}
+
+function loadScores() {
+    debugger;
+    var savedScores = localStorage.getItem("playerScore");
+    if (!savedScores) {
+        return false
+    }
+    savedScores = JSON.parse(savedScores);
+    for (var i = 0; i < savedScores.length; i++) {
+        scoresArr.push(savedScores[i]);
+    };
+};
 
 var questions = [
     {
@@ -194,3 +213,5 @@ var questions = [
         ]
     }
 ];
+
+loadScores();

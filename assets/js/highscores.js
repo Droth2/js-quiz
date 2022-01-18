@@ -15,6 +15,7 @@ function createScoreEl(scoresObj) {
     score.classList.add("player-score");
     score.textContent = numberCounter + ". " + scoresObj.name + " - " + scoresObj.score;
     scoresContainerEl.appendChild(score);
+    numberCounter++;
 }
 
 loadScores();
