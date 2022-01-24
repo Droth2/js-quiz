@@ -13,19 +13,18 @@ var answerBtn = document.querySelector(".button");
 var btnNumber = 1 
 var scoresArr = [];
 
-var countdown = function() {
-    if(counter > 0) {
-        timerEl.innerHTML = counter + "s Remaining!";
-        counter--;
-    } else {
-        timerEl.innerHTML = "0s Remaining!";
-        clearInterval(counter);
-        endQuiz();
-    }
-};
-
 var startCountdown = function() {
-    setInterval(countdown, 1000);
+    var interval = setInterval(function() {
+        if(counter > 0) {
+            timerEl.innerHTML = counter + "s Remaining!";
+            counter--;
+        } else {
+            timerEl.innerHTML = "0s Remaining!";
+            debugger;
+            clearInterval(interval);
+            endQuiz();
+        }
+    }, 1000)
 };
 
 let shuffledQuestions, currentQuestionIndex
@@ -93,7 +92,9 @@ function setStatusClass(element, correct) {
         element.innerText = "Incorrect";
         currentQuestionIndex++;
         if (score > 0){
+            debugger;
             score -= 10;
+            counter -= 10;
             console.log(score);
         }
         callSetQuestionFunc();
@@ -112,7 +113,6 @@ function resetState() {
 }
 
 function endQuiz() {
-    clearInterval(counter);
     questionContainerEl.classList.add('hide');
     heading.innerText = "Score:" + score + ", Enter your name to save your score!"
     heading.classList.remove('hide');
@@ -155,7 +155,6 @@ function saveSaveScore() {
 }
 
 function loadScores() {
-    debugger;
     var savedScores = localStorage.getItem("playerScore");
     if (!savedScores) {
         return false
